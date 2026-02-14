@@ -26,12 +26,19 @@ Before committing, if naming_conventions.md exists in project root:
 
 ## Steps 1-5: Git Workflow
 
-1. Check current branch: If on main, create feature branch:
+1. Check current branch: If on main or staging, create feature branch:
    `git checkout -b phase-$ARGUMENTS-implementation`
 2. Stage all changes: `git add .`
 3. Commit with message: "Phase $ARGUMENTS: [brief description of phase deliverables]"
 4. Push branch: `git push -u origin phase-$ARGUMENTS-implementation`
-5. Merge to main: `git checkout main && git merge phase-$ARGUMENTS-implementation && git push`
+5. **Merge target — ask user before merging:**
+   - Check if a `staging` branch exists: `git branch -a | grep staging`
+   - If staging exists, ask: "Merge to **staging** (preview/test) or **main** (production)?"
+   - If no staging branch exists, merge to main (current behavior)
+   - Execute:
+     - If **staging**: `git checkout staging && git merge phase-$ARGUMENTS-implementation && git push`
+     - If **main**: `git checkout main && git merge phase-$ARGUMENTS-implementation && git push`
+   - Return to the feature branch after merge: `git checkout phase-$ARGUMENTS-implementation`
 
 Use implementation_plan.md to reference what this phase delivered for the commit message.
 

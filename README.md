@@ -4,7 +4,7 @@ A structured workflow for building full-stack applications with Claude Code—de
 
 ## What This Is
 
-This is a collection of 10 Claude Code skills that guide you from initial idea through deployed, tested application. The workflow is intentionally methodical—if you're an experienced developer, you may find it slow. But if you're building apps without deep coding experience, this structure keeps you in control of what's being built and why.
+This is a collection of 11 Claude Code skills that guide you from initial idea through deployed, tested application. The workflow is intentionally methodical—if you're an experienced developer, you may find it slow. But if you're building apps without deep coding experience, this structure keeps you in control of what's being built and why.
 
 ## Who It's For
 
@@ -22,13 +22,14 @@ IDEATION PHASE
   /ideation-synthesize → Generate solution hypotheses, prepare for kickoff
 
 REQUIREMENTS PHASE
-  /kickoff             → Generate requirements.md and design.md
+  /kickoff             → Generate requirements.md, design.md, or per-chunk specs
   /tech-stack          → Collaborative technology decisions
 
 BUILD PHASE (repeat for each phase)
+  /new-plan            → Scaffold a plan document for a feature or fix
   /plan-phase N        → Detailed plan for implementation phase N
   /execute-phase N     → Execute the plan step by step
-  /commit-phase N      → Git workflow: branch, commit, merge
+  /commit-phase N      → Git workflow: branch, commit, merge (staging-aware)
 
 QUALITY PHASE
   /harmonize           → Check naming conventions, add test selectors
@@ -61,11 +62,12 @@ See [INSTALLATION.md](INSTALLATION.md) for setup instructions.
 | `/ideation-start` | Explore problem space, understand users, create initial ideation.md |
 | `/ideation-research` | Competitive analysis, assumption mapping, market validation |
 | `/ideation-synthesize` | Generate solution hypotheses using SCAMPER, prepare for kickoff |
-| `/kickoff` | Structured discovery → requirements.md + design.md |
+| `/kickoff` | Structured discovery → requirements.md + design.md, or per-chunk specs from discovery files |
 | `/tech-stack` | Guided technology decisions with tradeoff explanations |
+| `/new-plan` | Scaffold a plan document with proven template structure |
 | `/plan-phase N` | Detailed execution plan for phase N |
 | `/execute-phase N` | Step-by-step implementation of the plan |
-| `/commit-phase N` | Git workflow with convention checking |
+| `/commit-phase N` | Git workflow with convention checking (staging-branch aware) |
 | `/harmonize` | Scan for convention violations, add test selectors |
 | `/comprehensive-test` | Dual E2E frameworks (Playwright + Cypress), MSW integration tests |
 
