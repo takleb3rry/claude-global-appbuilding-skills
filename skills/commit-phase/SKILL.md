@@ -8,9 +8,13 @@ argument-hint: <phase-number>
 
 Complete git workflow for Phase $ARGUMENTS:
 
-## Step 0: Naming Convention Check
+## Step 0: Pre-Commit Checks
 
-Before committing, if naming_conventions.md exists in project root:
+Run the following checks before committing.
+
+### 0a: Naming Convention Check
+
+If `naming_conventions.md` exists in project root:
 
 1. Identify the project's primary language/framework from project files
 2. Get changed source files relevant to that stack: `git diff --name-only HEAD`
@@ -23,6 +27,18 @@ Before committing, if naming_conventions.md exists in project root:
 5. If issues found, ask: "Fix now or proceed anyway?"
 6. If proceeding with issues, append to commit message:
    "Note: Convention issues deferred - see harmonize-report.md"
+
+### 0b: DB Integration Check
+
+If staged files touch `src/lib/db/schema/` or `drizzle/migrations/`:
+
+1. Run: `npx vitest run src/lib/db/integration.test.ts`
+2. Report findings:
+   - **BLOCKING**: Any table missing from the live DB (migration not applied)
+   - **BLOCKING**: DATABASE_URL not set or DB unreachable
+   - **PASS**: All expected tables found — report the count and proceed
+3. If BLOCKING issues found, ask: "Apply pending migrations first, or proceed anyway?"
+4. If proceeding with issues, note it in the commit message
 
 ## Steps 1-5: Git Workflow
 

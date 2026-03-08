@@ -1,7 +1,7 @@
 ---
 name: kickoff
 description: Initialize a new project by analyzing source documents and generating requirements.md and design.md
-argument-hint: [path-to-requirements-doc-or-notes]
+argument-hint: "[path-to-requirements-doc-or-notes]"
 ---
 
 # Project Kickoff
@@ -22,10 +22,9 @@ Check if numbered chunk discovery files exist (e.g., `1-*-discovery.md`, `2-*-di
    - All `N-*-discovery.md` files
    - `decisions.md` — decision rationale log
    - `dependencies.md` — cross-chunk impacts
-   - `../company_facts.md` — organization-level source of truth (shared across projects)
-   - `company_facts.md` — project-level copy (fallback if parent-level doesn't exist)
+   - `company_facts.md` — optional org-level context file (check project root, then parent directory if not found)
    - Any standalone integration specs (e.g., `*-spec.md`, `*-data-spec.md`) referenced by discovery files
-   - `discovery-docs/` — scan for extracted reference documents (e.g., `*EXTRACTION*.md`, `*FACTS*.md`)
+   - Any reference documents linked from discovery files (check `discovery-docs/`, `reference/`, or similar folders if they exist)
 3. For each chunk, assess discovery completeness:
    - **Complete**: Has resolved questions, clear decisions recorded in decisions.md, ready for spec
    - **Partial**: Some questions explored, some still open — flag gaps to the user
@@ -140,17 +139,17 @@ Prioritized into three tiers:
 **P2 (Future Consideration)** — architectural awareness only. Include "Architectural Consideration" noting what the design must not preclude.
 
 Each requirement has:
-- **Unique ID** (e.g., GL-P0-001, REV-P1-003) — chunk prefix + priority tier + number
+- **Unique ID** (e.g., AUTH-P0-001, SYNC-P1-003) — chunk prefix + priority tier + number
 - **Requirement statement**
-- **Acceptance criteria** — specific, testable. Use real data from discovery where available (dollar amounts, account names, actual rates, specific people). Prefer Given/When/Then format for behavioral requirements; checkbox format for structural requirements.
+- **Acceptance criteria** — specific, testable. Use real data from discovery where available (thresholds, named entities, rates, specific roles). Prefer Given/When/Then format for behavioral requirements; checkbox format for structural requirements.
 - **Decision reference** — D-XXX from decisions.md (if applicable)
 
 #### 7. Correctness Properties
 Formal invariants that must hold across all valid states. Format: "For any [scope], [invariant that must be true]." Each property references which requirements it validates.
 
 Examples:
-- "For any GL entry, total debits SHALL equal total credits across all transaction lines." (validates GL-P0-001)
-- "For any fund with restriction type 'Restricted', expenses posted to that fund SHALL trigger an automatic net asset release entry." (validates GL-P0-005)
+- "For any submitted order, the sum of line item totals SHALL equal the order total stored on the parent record." (validates ORD-P0-001)
+- "For any user with role 'Admin', all restricted operations SHALL be permitted without additional approval gates." (validates AUTH-P0-005)
 
 These are directly testable assertions. Aim for 4-8 properties per chunk. If a property can't be tested, it's too vague.
 
@@ -183,7 +182,7 @@ How the system handles user errors vs. system errors for this chunk's domain. Us
 Include philosophy statement (e.g., "Never lose user work", "Warn but don't block", "Fail loudly on data integrity issues").
 
 #### 10. Success Metrics
-**Primary metric** with specific target, measurement method, and evaluation timing. Use real numbers where available (dollar thresholds, time targets, accuracy percentages).
+**Primary metric** with specific target, measurement method, and evaluation timing. Use real numbers where available (numeric thresholds, time targets, accuracy percentages).
 
 **Secondary metrics** — additional measures that indicate success.
 
@@ -199,7 +198,7 @@ Two categories:
 **Non-blocking** — can resolve during implementation. Each has: question, impact, owner, and default assumption if not resolved.
 
 #### 12. Risks and Mitigations
-Categorized **High / Medium / Low** based on likelihood x impact.
+Categorized **High / Medium / Low** based on likelihood × impact.
 
 Each risk has:
 - **Likelihood**: High / Medium / Low
@@ -207,12 +206,12 @@ Each risk has:
 - **Mitigation**: Specific actions (not generic "monitor the situation")
 - **Decision Reference**: D-XXX if the risk relates to a specific decision
 
-Ground risks in the actual project — not generic risk boilerplate. "Fund accounting implementation errors create compliance exposure" is specific. "The system might have bugs" is not.
+Ground risks in the actual project — not generic risk boilerplate. "Errors in the core transaction workflow create data integrity failures that cascade downstream" is specific. "The system might have bugs" is not.
 
 #### 13. Timeline Considerations
-- **Hard deadlines** tied to real business events (property closing, fiscal year end, board meeting, filing deadline). Pull from company_facts.md compliance calendar.
+- **Hard deadlines** tied to real business events (product launch, contract milestone, regulatory filing, stakeholder review). Pull from company_facts.md or project context documents if available.
 - **Dependencies** on other chunks or external parties
-- **Suggested phasing** if the chunk has natural P0 -> P1 -> P2 build stages
+- **Suggested phasing** if the chunk has natural P0 → P1 → P2 build stages
 
 #### 14. Decision Cross-Reference
 Table mapping decision IDs from decisions.md to spec sections:
@@ -263,7 +262,7 @@ Structure:
    - Acceptance criteria using "THE System SHALL..." format
    - Number criteria within each requirement (1, 2, 3...)
 
-**Traceability**: When ideation.md exists, every requirement should trace back to at least one assumption. This creates the chain: Assumption -> Requirement -> Test
+**Traceability**: When ideation.md exists, every requirement should trace back to at least one assumption. This creates the chain: Assumption → Requirement → Test
 
 ### design.md
 
@@ -300,7 +299,7 @@ After approval, inform me to run `/tech-stack` to make technology decisions and 
 - User says "kickoff", "start a new project", "initialize project", "new project"
 - User says "let's go through the discovery process", "help me think through this project", "I need to scope out a project", "let's define what we're building"
 - Have requirements docs or notes that need to be formalized
-- **After completing the ideation sequence** (/ideation-start -> /ideation-research -> /ideation-synthesize)
+- **After completing the ideation sequence** (/ideation-simple → /ideation-research → /ideation-synthesize)
 - **After completing chunk-based discovery** (discovery files + decisions.md present)
 
 ## When NOT to Use

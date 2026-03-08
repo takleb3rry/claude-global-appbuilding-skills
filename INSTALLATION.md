@@ -39,7 +39,8 @@ This approach lets you pull updates with `git pull`.
 
 Open Claude Code and type `/` to see available skills. You should see:
 
-- `/ideation-start`
+- `/ideation-simple`
+- `/ideation-complex`
 - `/ideation-research`
 - `/ideation-synthesize`
 - `/kickoff`
@@ -54,7 +55,7 @@ Open Claude Code and type `/` to see available skills. You should see:
 
 ### Web Search (Required for Ideation Skills)
 
-The ideation skills (`/ideation-start`, `/ideation-research`, `/ideation-synthesize`) use web search to validate ideas against market reality. Ensure you have:
+The ideation skills (`/ideation-simple`, `/ideation-research`, `/ideation-synthesize`) use web search to validate ideas against market reality. Ensure you have:
 
 - Brave Search MCP server configured, OR
 - WebSearch tool available in your Claude Code setup
@@ -89,7 +90,8 @@ cp -r skills/* ~/.claude/skills/
 Remove the skill folders from `~/.claude/skills/`:
 
 ```bash
-rm -rf ~/.claude/skills/ideation-start
+rm -rf ~/.claude/skills/ideation-simple
+rm -rf ~/.claude/skills/ideation-complex
 rm -rf ~/.claude/skills/ideation-research
 rm -rf ~/.claude/skills/ideation-synthesize
 rm -rf ~/.claude/skills/kickoff
@@ -117,5 +119,5 @@ rm -rf ~/.claude/skills/comprehensive-test
 ### Ideation skills failing
 
 - The skills require `ideation.md` to progress through the sequence
-- Run `/ideation-start` first to create the initial file
+- Run `/ideation-simple` (or `/ideation-complex`) first to create the initial file
 - Check the Status field in `ideation.md` matches the expected state

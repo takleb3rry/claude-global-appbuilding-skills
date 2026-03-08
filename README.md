@@ -4,7 +4,7 @@ A structured workflow for building full-stack applications with Claude Code—de
 
 ## What This Is
 
-This is a collection of 11 Claude Code skills that guide you from initial idea through deployed, tested application. The workflow is intentionally methodical—if you're an experienced developer, you may find it slow. But if you're building apps without deep coding experience, this structure keeps you in control of what's being built and why.
+This is a collection of 11 Claude Code skills that guide you from initial idea through deployed, tested application. The ideation phase now supports both a simple conversational path and a structured chunk-based discovery path for complex projects. The workflow is intentionally methodical—if you're an experienced developer, you may find it slow. But if you're building apps without deep coding experience, this structure keeps you in control of what's being built and why.
 
 ## Who It's For
 
@@ -16,19 +16,22 @@ This is a collection of 11 Claude Code skills that guide you from initial idea t
 ## The Workflow
 
 ```
-IDEATION PHASE
-  /ideation-start      → Transform a hunch into a well-understood problem
-  /ideation-research   → Deep market research and assumption mapping
-  /ideation-synthesize → Generate solution hypotheses, prepare for kickoff
+IDEATION PHASE (choose one path)
+  Simple path:
+    /ideation-simple     → Transform a hunch into a well-understood problem
+    /ideation-research   → Deep market research and assumption mapping
+    /ideation-synthesize → Generate solution hypotheses, prepare for kickoff
+
+  Complex path (3+ business domains):
+    /ideation-complex    → Chunk-based discovery, produces files for /kickoff Pathway A
 
 REQUIREMENTS PHASE
   /kickoff             → Generate requirements.md, design.md, or per-chunk specs
   /tech-stack          → Collaborative technology decisions
 
 BUILD PHASE (repeat for each phase)
-  /new-plan            → Scaffold a plan document for a feature or fix
   /plan-phase N        → Detailed plan for implementation phase N
-  /execute-phase N     → Execute the plan step by step
+  /execute-phase N     → Execute the plan with 3-layer evaluation per task
   /commit-phase N      → Git workflow: branch, commit, merge (staging-aware)
 
 QUALITY PHASE
@@ -52,22 +55,22 @@ See [INSTALLATION.md](INSTALLATION.md) for setup instructions.
 
 1. Install the skills (see INSTALLATION.md)
 2. Create a new project directory
-3. Run `/ideation-start` with your idea
+3. Run `/ideation-simple` (or `/ideation-complex` for large projects) with your idea
 4. Follow the workflow through each phase
 
 ## Skill Reference
 
 | Skill | Purpose |
 |-------|---------|
-| `/ideation-start` | Explore problem space, understand users, create initial ideation.md |
+| `/ideation-simple` | Explore problem space, understand users, create initial ideation.md (simple projects) |
+| `/ideation-complex` | Chunk-based business domain discovery for complex projects (3+ domains) |
 | `/ideation-research` | Competitive analysis, assumption mapping, market validation |
 | `/ideation-synthesize` | Generate solution hypotheses using SCAMPER, prepare for kickoff |
 | `/kickoff` | Structured discovery → requirements.md + design.md, or per-chunk specs from discovery files |
 | `/tech-stack` | Guided technology decisions with tradeoff explanations |
-| `/new-plan` | Scaffold a plan document with proven template structure |
 | `/plan-phase N` | Detailed execution plan for phase N |
-| `/execute-phase N` | Step-by-step implementation of the plan |
-| `/commit-phase N` | Git workflow with convention checking (staging-branch aware) |
+| `/execute-phase N` | Step-by-step implementation with 3-layer evaluation (tests + UI + acceptance criteria) |
+| `/commit-phase N` | Git workflow with convention and DB migration checking (staging-branch aware) |
 | `/harmonize` | Scan for convention violations, add test selectors |
 | `/comprehensive-test` | Dual E2E frameworks (Playwright + Cypress), MSW integration tests |
 

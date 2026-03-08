@@ -1,10 +1,10 @@
 ---
-name: ideation-start
+name: ideation-simple
 description: Explore a problem space and understand users - the first step in the ideation sequence
-argument-hint: [optional: brief description of your idea or problem]
+argument-hint: "optional: brief description of your idea or problem"
 ---
 
-# Ideation Start
+# Ideation Simple
 
 Transform a hunch into a well-understood problem with clear user personas. This is the first skill in the ideation sequence.
 
@@ -43,78 +43,52 @@ The user may come with different starting points. Detect which type:
    - Example: "Remote work teams need better tools"
    - Explore who specifically has this need and what pain they experience
 
-## Phase 1: Intake & Orientation
+## Phase 1: Intake & Problem Understanding
 
 **Opening question** (adapt based on $ARGUMENTS if provided):
 - "Tell me about what you're thinking about building—what's the spark?"
 
-After the user shares their initial idea, identify the entry type and ensure we have a problem statement, not just a solution.
+After the user shares their initial idea, identify the entry type and ensure we have a problem statement, not just a solution. Ask adaptively — if the user is forthcoming, fewer questions are needed. Dig deeper only when the picture is unclear. Goal: understand what job someone is trying to get done, how they solve it today, and what's frustrating about that.
 
-### RESEARCH INTERLUDE: Initial Landscape Scan
+### RESEARCH INTERLUDE: Landscape Scan
 
-After understanding the basic idea:
+Once you have a clear sense of the basic problem:
 1. Announce: "Let me do a quick landscape scan to see what exists in this space..."
 2. Search for:
-   - "[problem domain] solutions 2025"
+   - "[problem domain] solutions"
    - "competitors for [problem description]"
-   - "[industry/domain] tools software"
-3. Synthesize findings: "Here's what I found in this space: [summary]. This gives us context for where your idea fits."
-4. Connect: Note whether this validates the opportunity or reveals crowded market
+3. Synthesize findings: "Here's what I found: [summary]. This gives us context for where your idea fits."
+4. Note whether this validates the opportunity or reveals a crowded market.
 
-## Phase 2: Problem Exploration (Jobs-to-be-Done)
+## Phase 2: User Understanding (BJ Fogg)
 
-Ask questions to deeply understand the problem. Adapt based on responses—skip questions already answered, dig deeper when complexity emerges.
+Understand who experiences this problem most and what would drive them to act. Ask adaptively — you're trying to understand:
 
-**Core questions** (~5-7):
-- "What job is someone trying to get done when they hit this problem?"
-- "Walk me through a day in the life of someone experiencing this problem."
-- "How do they solve this problem today? What workarounds do they use?"
-- "What's frustrating about the current solutions or workarounds?"
-- "When does this problem hurt the most? What triggers the pain?"
-- "What happens if they don't solve this problem? What's at stake?"
+- **Who** experiences this problem most acutely, and whether there are meaningfully different user types
+- **Motivation**: What's the promise of a better solution? Why would they want it?
+- **Ability barriers**: What friction might stop them from switching even if they're frustrated?
+- **Potential prompts**: What event or moment might trigger them to seek a solution?
 
-### RESEARCH INTERLUDE: Pain Point Validation
+Don't ask all of these as a list. Surface them through natural conversation, following where the user leads.
 
-When the user describes current workarounds or solutions:
-1. Announce: "Let me search for what people are saying about [current solution/workaround]..."
-2. Search for:
-   - "[workaround/tool] reviews complaints"
-   - "[problem domain] frustrations reddit"
-   - "[tool name] alternatives why switch"
-3. Synthesize: "People are talking about this. Here's what they say: [key complaints/wishes]"
-4. Connect: "This [confirms/challenges/adds to] what you described..."
+## Stopping Criteria
 
-## Phase 3: User Understanding (BJ Fogg + Personas)
+Before writing ideation.md, confirm you have:
+- [ ] A clear problem statement (not just a solution idea)
+- [ ] At least one user segment with enough context to describe them
+- [ ] A rough sense of current alternatives
 
-Understand who experiences this problem and what would drive them to act.
-
-**Core questions** (~4-6):
-- "Who experiences this problem most acutely? Paint a picture of them."
-- "Are there different types of users who have this problem? How do they differ?"
-- "What would motivate someone to try a new solution? (What's the promise?)"
-- "What might stop them from switching even if they're frustrated? (Ability barriers)"
-- "What event or moment might trigger them to seek a solution? (The prompt)"
-
-### RESEARCH INTERLUDE: User Sentiment Research
-
-When identifying target users:
-1. Announce: "Let me search for how [user type] talk about their challenges..."
-2. Search for:
-   - "[user type] workflow challenges"
-   - "[user type] [domain] problems reddit"
-   - "[job title/role] daily frustrations"
-3. Synthesize: "Here's what [user type] are saying about their work/challenges: [insights]"
-4. Connect: Enrich the persona understanding with real voices
+If any of these are missing, ask one more targeted question to fill the gap before proceeding.
 
 ## Output: Create/Update ideation.md
 
-After completing the three phases, create or update `ideation.md` in the project root with sections 1-3:
+After the conversation has enough depth, create or update `ideation.md` in the project root with sections 1-3:
 
 ```markdown
 # Ideation: [Project Name - derive from conversation]
 
 ## Meta
-- Status: Start
+- Status: Simple
 - Last Updated: [today's date]
 - Sessions: 1
 
@@ -159,8 +133,6 @@ After completing the three phases, create or update `ideation.md` in the project
 | Date | Topic | Source | Key Findings |
 |------|-------|--------|--------------|
 | [date] | Landscape scan | [sources] | [findings] |
-| [date] | Pain point validation | [sources] | [findings] |
-| [date] | User sentiment | [sources] | [findings] |
 ```
 
 ## Completion
@@ -169,9 +141,9 @@ After generating ideation.md:
 
 1. **Present summary**: "Here's what we've discovered about the problem and users: [brief summary]"
 
-2. **Highlight key insights**: Call out the most important findings from research
+2. **Highlight key insights**: Call out the most important findings from the landscape scan
 
-3. **Next step**: "The start phase is complete. When you're ready, run `/ideation-research` to dive deep into the competitive landscape and map out our assumptions."
+3. **Next step**: "The simple phase is complete. When you're ready, run `/ideation-research` to dive deep into the competitive landscape and map out our assumptions."
 
 ## When to Use
 - Starting ideation on a new idea
@@ -179,5 +151,5 @@ After generating ideation.md:
 - User describes a problem, solution idea, or market opportunity
 
 ## When NOT to Use
-- Ideation start already complete (Status ≥ "Start") - use /ideation-research
+- Ideation simple already complete (Status ≥ "Simple") - use /ideation-research
 - Already have formal requirements - use /kickoff directly
