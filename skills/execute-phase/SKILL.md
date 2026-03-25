@@ -39,17 +39,45 @@ Use TodoWrite to create one todo per task from the plan. Mark each complete only
 
 Work through tasks one at a time. For each task:
 
-### 3a: Build
+### 3a: Test-First (Layer 0)
 
-Implement the task. Read any file before modifying it. Follow the plan; don't add scope beyond what's specified.
+Before writing any implementation code, write tests that encode the task's acceptance criteria.
 
-### 3b: Evaluate
+1. Read the task's acceptance criteria from the plan
+2. Write one or more test cases targeting the **expected behavior** — not the implementation you're about to write
+3. Run the tests. **They must FAIL.** If they pass, the test isn't testing new behavior — rewrite it until it fails for the right reason
+4. Only then proceed to 3b (Build)
 
-After building each task, run the evaluator before moving on. Three layers — work through them in order. Fix failures before advancing.
+**Skip Layer 0 when** the task is purely structural — file scaffolding, config changes, dependency installation, migration file creation, or static content. When skipping, note "Layer 0 skipped — [reason]" and proceed.
+
+> **If you're thinking...** | **Do this instead**
+> ---|---
+> "This is too simple to need a test first" | Simple code breaks. The test takes 30 seconds to write. Do it.
+> "I'll write the test after, I know what I'm building" | Tests written after implementation confirm what you built, not what was intended. They pass vacuously.
+> "The existing tests will catch it" | Existing tests cover existing behavior. New behavior needs a new failing test.
+> "This task is just wiring/plumbing" | Wiring bugs are the hardest to find. A test that verifies the wire is connected catches them early.
 
 ---
 
-#### Evaluator Layer 1: Automated Tests
+### 3b: Build
+
+Implement the task. Read any file before modifying it. Follow the plan; don't add scope beyond what's specified.
+
+### 3c: Evaluate
+
+After building each task, run the evaluator before moving on. Four layers — work through them in order. Fix failures before advancing.
+
+> **If you're thinking...** | **Do this instead**
+> ---|---
+> "This task is trivial, I can skip the evaluator" | Trivial tasks have trivial evaluations. Run them. Skipping is how trivial bugs ship.
+> "Tests passed last task, I just need to check this one quick change" | Each task gets all layers. Cumulative changes create interaction bugs.
+> "The dev server isn't running so I'll skip Layer 2" | Already handled — Layer 2 notes the skip and continues. But don't skip Layers 0, 1, 3, or 4.
+> "I'll batch the security review, it's faster" | The security review IS batched (Step 5). Per-task reviews are Layers 1-4. Don't conflate them.
+> "This blocker is obvious, I don't need to ask" | If you're confident, presenting options takes 10 seconds. If you're wrong, guessing costs an hour.
+
+---
+
+#### Evaluator Layer 1: Automated Tests (includes Layer 0 re-run)
 
 ```bash
 # TypeScript compile check
@@ -148,13 +176,38 @@ Acceptance criteria check — Task N: [name]
 ✗ [criterion]: [what's missing or wrong]
 ```
 
-Any failing criterion → fix, then re-run all three layers before advancing.
+Any failing criterion → fix, then re-run all evaluator layers before advancing.
 
 ---
 
-### 3c: Mark Complete
+#### Evaluator Layer 4: Adversarial Review
 
-Only after all three evaluator layers pass: mark the task complete in TodoWrite and proceed to the next task.
+Run this layer on tasks that modify **business logic, auth, data mutation, or financial calculations**. Skip for pure UI/styling, documentation, and config changes — note "Layer 4 skipped — [reason]" when skipping.
+
+Dispatch a subagent (via the Agent tool) with this prompt, filling in the specifics:
+
+> You are reviewing code written by another agent. Do not trust their self-assessment. They finished suspiciously quickly.
+>
+> **Task:** [task description from plan]
+> **Acceptance criteria:** [list from plan]
+> **Files created/modified:** [list]
+>
+> Read every file listed. Check:
+> (a) Does the code actually satisfy each acceptance criterion, or does it only appear to?
+> (b) Are there edge cases the acceptance criteria don't cover but the requirements imply?
+> (c) Any security issues, silent failures, or error paths that swallow exceptions?
+>
+> Report as PASS or ISSUES_FOUND with specific file:line references for each finding.
+
+**If ISSUES_FOUND:** Fix the issues, re-run Layers 1-3, then re-run Layer 4.
+
+**Max 2 review loops.** If Layer 4 still reports issues after 2 rounds, escalate to the user with the findings rather than continuing to iterate.
+
+---
+
+### 3d: Mark Complete
+
+Only after Layer 0 tests pass (via Layer 1 re-run) and all evaluator layers pass: mark the task complete in TodoWrite and proceed to the next task.
 
 ---
 
@@ -198,9 +251,15 @@ Fix all BLOCKING items before moving to Step 6.
 
 ## Step 6: Completion
 
+**Verification language rules** — these apply to per-task completion (Step 3d) and phase completion alike:
+- Never claim a task or phase is complete without command output that proves it (test pass count, build success, Playwright results)
+- Banned phrases: "should work now", "this probably fixes it", "that should be fine", "I believe this resolves"
+- Every completion statement must cite evidence: "Task 3 complete — `vitest run` passes 24/24, Playwright verified `/settings` and `/profile`"
+- Follow the `/verify` checklist: IDENTIFY the proving command → RUN it → READ full output → CHECK it confirms the claim
+
 When all tasks pass evaluation and the security review is clean:
 
-1. List what was built (one line per task)
+1. List what was built (one line per task, with evidence summary)
 2. Note any warnings or deferred items
 3. Tell the user: "Phase complete. Run `/commit-phase $ARGUMENTS` to commit and merge."
 

@@ -50,6 +50,9 @@ Open Claude Code and type `/` to see available skills. You should see:
 - `/commit-phase`
 - `/harmonize`
 - `/comprehensive-test`
+- `/ai-governance`
+- `/diagnose`
+- `/verify`
 
 ## Configuration
 
@@ -101,6 +104,9 @@ rm -rf ~/.claude/skills/execute-phase
 rm -rf ~/.claude/skills/commit-phase
 rm -rf ~/.claude/skills/harmonize
 rm -rf ~/.claude/skills/comprehensive-test
+rm -rf ~/.claude/skills/ai-governance
+rm -rf ~/.claude/skills/diagnose
+rm -rf ~/.claude/skills/verify
 ```
 
 ## Troubleshooting

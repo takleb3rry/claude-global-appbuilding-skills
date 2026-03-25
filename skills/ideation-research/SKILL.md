@@ -1,17 +1,17 @@
 ---
 name: ideation-research
 description: Deep market research and assumption mapping - second step in the ideation sequence
-argument-hint:
+argument-hint: "[optional: focus area or specific market to research]"
 ---
 
 # Ideation Research
 
-Conduct comprehensive market research and map assumptions. This is the second skill in the ideation sequence.
+Conduct focused market research and map assumptions. This is the second skill in the ideation sequence.
 
 ## Prerequisites
 
-- **Web search capability**: This skill conducts extensive market research. Ensure you have Brave Search, WebSearch, or equivalent search tools available.
-- **Completed /ideation-start**: Requires `ideation.md` with Status = "Start".
+- **Web search capability**: This skill conducts market research. Ensure you have Brave Search, WebSearch, or equivalent search tools available.
+- **Completed /ideation-simple**: Requires `ideation.md` with Status = "Simple".
 - **Write access**: Updates `ideation.md` in the project root.
 
 ---
@@ -19,13 +19,13 @@ Conduct comprehensive market research and map assumptions. This is the second sk
 ## First Action: Validate Prerequisites
 
 1. **Check for ideation.md** in project root
-   - If not found: "This skill requires `/ideation-start` to be completed first. Please run `/ideation-start` to begin the ideation process."
+   - If not found: "This skill requires `/ideation-simple` to be completed first. Please run `/ideation-simple` to begin the ideation process."
    - If found: Read and verify Status field
 
 2. **Check Status**
-   - If Status < "Start": "The discovery phase isn't complete yet. Please finish `/ideation-start` first."
-   - If Status = "Start": Proceed
-   - If Status ≥ "Research": Ask "The research phase was already completed. Would you like to:"
+   - If Status < "Simple": "The discovery phase isn't complete yet. Please finish `/ideation-simple` first."
+   - If Status = "Simple": Proceed
+   - If Status >= "Research": Ask "The research phase was already completed. Would you like to:"
      - "Continue to `/ideation-synthesize`"
      - "Redo the research phase (this will overwrite sections 4-5)"
 
@@ -42,41 +42,35 @@ Summarize: "Based on the discovery phase, we're exploring [problem] for [user se
 
 ## Phase 1: Market & Competitive Research
 
-### RESEARCH INTERLUDE: Comprehensive Competitive Analysis
+### Search Strategy
 
-This is a research-heavy phase. Announce and execute multiple searches:
+**Cap total searches at 6-8.** Go deeper on a few key competitors rather than wider across many searches. If the first 2-3 searches reveal a crowded, well-documented market with clear leaders, you have enough -- stop searching and move to gap analysis.
 
-1. **Direct Competitors**
-   - Announce: "Let me search for direct competitors—products solving this exact problem..."
+Execute searches in this priority order, stopping early if you have sufficient signal:
+
+1. **Direct Competitors** (2-3 searches max)
+   - Announce: "Let me search for direct competitors -- products solving this exact problem..."
    - Search for:
-     - "[problem domain] software tools 2025"
+     - "[problem domain] software tools"
      - "[problem] app product"
-     - "best [solution type] tools"
-     - Site-specific: "site:producthunt.com [problem domain]"
-     - Site-specific: "site:g2.com [solution type]"
+     - "best [solution type] tools" or "site:producthunt.com [problem domain]"
    - For each competitor found, note: name, what they do, apparent strengths/weaknesses
 
-2. **Indirect Competitors**
-   - Announce: "Now searching for indirect competitors—adjacent solutions people use..."
+2. **Indirect Competitors** (1-2 searches)
+   - Announce: "Now searching for indirect alternatives -- adjacent solutions people use..."
    - Search for:
      - "[current workaround] alternatives"
      - "how [user type] [solve problem]"
-     - "[related tool category]"
    - Note what jobs these serve and gaps they leave
 
-3. **Market Signals**
-   - Announce: "Let me look at market trends and signals..."
-   - Search for:
-     - "[domain] market trends 2025"
-     - "[domain] startup funding"
-     - "[domain] industry growth"
+3. **Market Signals** (1 search)
+   - Announce: "Let me look at market trends..."
+   - Search for: "[domain] market trends" or "[domain] startup funding"
    - Note trends, funding activity, growth indicators
 
-4. **Pricing & Business Models**
-   - For key competitors identified, search for:
-     - "[competitor name] pricing"
-     - "[competitor name] vs alternatives"
-   - Note pricing tiers, business models
+4. **Pricing** (optional -- only if not already evident from competitor searches)
+   - If pricing data was captured during competitor research, use it -- don't do a dedicated search
+   - Only search "[competitor name] pricing" if you found 1-2 strong competitors and pricing is clearly important to the problem space
 
 ### User Interaction: Competitive Review
 
@@ -127,7 +121,7 @@ For each assumption, rate on two dimensions:
 
 ### RESEARCH INTERLUDE: Assumption Validation
 
-For each High Importance / Low Confidence assumption:
+For each High Importance / Low Confidence assumption (use remaining search budget from Phase 1):
 1. Announce: "Let me search for evidence about [assumption]..."
 2. Search for relevant data, statistics, or perspectives
 3. Report: "For this assumption, I found [evidence/counter-evidence]"
@@ -142,17 +136,26 @@ Categorize into priority matrix:
 - **Monitor** (High Importance, High Confidence): Critical but we're confident
 - **Validate Later** (Lower priority): Nice to confirm but not urgent
 
+## Completeness Check
+
+Before writing output, verify you can answer yes to all three:
+- [ ] Can I name at least 2 direct competitors with their specific weaknesses?
+- [ ] Have I identified at least 1 clear opportunity gap tied to user needs?
+- [ ] Have I rated all major assumptions, with evidence for High Importance / Low Confidence ones?
+
+If any answer is no, do one more targeted search. If search doesn't resolve it, note the gap explicitly in the output rather than leaving it blank.
+
 ## Output: Update ideation.md
 
 Update sections 4-5 of ideation.md:
 
-```markdown
+~~~markdown
 ## 4. Market Landscape
 
 ### Direct Competitors
 | Competitor | What They Do | Strengths | Weaknesses | Pricing |
 |------------|--------------|-----------|------------|---------|
-| [Name] | [Description] | [Strengths] | [Weaknesses] | [Pricing model] |
+| [Name] | [Description] | [Strengths] | [Weaknesses] | [Pricing model or "not found"] |
 | ... | ... | ... | ... | ... |
 
 ### Indirect Competitors
@@ -184,12 +187,12 @@ Update sections 4-5 of ideation.md:
 - **Test First** (High Importance, Low Confidence): [A1, A4, ...]
 - **Monitor** (High Importance, High Confidence): [A3, ...]
 - **Validate Later** (Lower priority): [A2, ...]
-```
+~~~
 
 Also update:
-- Meta.Status → "Research"
-- Meta.Last Updated → today's date
-- Research Log → add entries for all searches conducted
+- Meta.Status -> "Research"
+- Meta.Last Updated -> today's date
+- Research Log -> add entries for all searches conducted
 
 ## Completion
 
@@ -207,11 +210,11 @@ After updating ideation.md:
 3. **Next step**: "The research phase is complete. When you're ready, run `/ideation-synthesize` to generate solution hypotheses and prepare for kickoff."
 
 ## When to Use
-- After completing /ideation-start
+- After completing /ideation-simple
 - User says "research the market", "map assumptions", "competitive analysis"
 - Ready to move from problem understanding to solution thinking
 
 ## When NOT to Use
-- Discovery phase not complete - use /ideation-start first
+- Discovery phase not complete - use /ideation-simple first
 - Already have formal requirements - use /kickoff directly
 - Just need a quick competitive scan - do it conversationally

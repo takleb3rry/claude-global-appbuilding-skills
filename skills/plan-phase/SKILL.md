@@ -36,6 +36,13 @@ Count the tasks in Phase $ARGUMENTS from `implementation_plan.md`.
 
 If you split, ask: "Phase $ARGUMENTS is large. I've divided it into sub-phases Xa, Xb, Xc — [one line each]. Which would you like to plan first?"
 
+> **If you're thinking...** | **Do this instead**
+> ---|---
+> "This phase is straightforward, I can plan it loosely" | Loose plans produce loose implementations. Every task needs files-to-touch and acceptance criteria.
+> "I'll figure out the details during execution" | Execution is not the time for design decisions. That's how scope creep starts.
+> "8 tasks is fine for one phase" | The rule is 3-8. If you're at 8, check whether any task crosses a system boundary. If so, split.
+> "The requirements doc covers this, I don't need to repeat it in the plan" | The plan is the implementer's contract. It must be self-contained. REQ-IDs link back, but the plan states the work.
+
 ---
 
 ## Step 3: Write the Plan

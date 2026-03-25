@@ -12,6 +12,12 @@ Complete git workflow for Phase $ARGUMENTS:
 
 Run the following checks before committing.
 
+> **If you're thinking...** | **Do this instead**
+> ---|---
+> "Naming conventions are fine, I followed them during build" | That's what the check verifies. If you followed them, it takes 5 seconds.
+> "I'll merge to main, staging is overkill for this" | Ask the user. Merge target is their decision, not yours.
+> "The plan file is still useful, I'll keep it" | Used plans are noise. Delete it. The implementation plan and git history are the record.
+
 ### 0a: Naming Convention Check
 
 If `naming_conventions.md` exists in project root:

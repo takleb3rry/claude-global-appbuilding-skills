@@ -19,7 +19,7 @@ Generate solution hypotheses, synthesize findings, and prepare for the formal re
 ## First Action: Validate Prerequisites
 
 1. **Check for ideation.md** in project root
-   - If not found: "This skill requires `/ideation-start` and `/ideation-research` to be completed first. Please start with `/ideation-start`."
+   - If not found: "This skill requires `/ideation-simple` and `/ideation-research` to be completed first. Please start with `/ideation-simple`."
    - If found: Read and verify Status field
 
 2. **Check Status**
@@ -60,7 +60,7 @@ Walk through at least 3-4 prompts conversationally:
 
 ### Hypothesis Formulation
 
-From the brainstorming, formulate 2-4 distinct solution hypotheses:
+From the brainstorming, formulate 2-3 distinct solution hypotheses. Aim for fewer, better hypotheses over many shallow ones — if you find yourself generating 4+, consolidate the most similar ones before proceeding.
 
 For each hypothesis:
 - **Name**: Give it a memorable name
@@ -72,7 +72,9 @@ For each hypothesis:
 
 ### RESEARCH INTERLUDE: Prior Attempts
 
-For each promising hypothesis:
+Do this research only for the **top 1-2 hypotheses** — not all of them. Skip this entirely if a hypothesis is a clear evolution of an existing category (e.g., "a better CRM"). The value is in finding failures and edge cases for **novel approaches** where the path isn't obvious.
+
+For each qualifying hypothesis:
 1. Announce: "Let me search for others who've tried [approach]..."
 2. Search for:
    - "[approach/solution type] startup"

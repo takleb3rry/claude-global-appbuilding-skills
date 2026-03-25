@@ -37,8 +37,9 @@ Work through these in order, skipping any that don't apply to this project:
 6. File/Document Storage
 7. Email Service
 8. Authentication Strategy
-9. Testing Framework
-10. UI/UX Foundations
+9. AI Inference & Governance (if project uses AI/LLM)
+10. Testing Framework
+11. UI/UX Foundations
 
 ### Category-Specific Notes
 
@@ -61,13 +62,68 @@ First ask: How many environments? Options:
 
 Then ask hosting preference. **Important**: If local dev OS differs from production OS and they're not using containers, flag this as a risk—recommend Docker or CI/CD testing on the target platform.
 
-**9. Testing Framework**
+**9. AI Inference & Governance**
+Only applicable if the project uses AI/LLM capabilities. Skip entirely for pure-software projects.
+
+This category produces TWO technology decisions:
+- **TD-XXX — AI Inference**: Which model(s), which provider, streaming, cost constraints (standard tech decision)
+- **TD-XXX — AI Boundary Classification**: Where AI belongs in this app and where it doesn't (governance decision)
+
+For the AI Boundary Classification decision, walk through every planned feature and classify each component:
+
+| Classification | Definition | Governance Requirement |
+|---------------|------------|----------------------|
+| **DETERMINISTIC** | Code executes it identically every time. No AI. | Standard software testing. This is the default — everything is DETERMINISTIC unless there's a reason it can't be. |
+| **AI-ADVISORY** | AI generates output that a human reviews before acting. | Acceptable risk. Note who reviews. |
+| **AI-OPERATIONAL** | AI generates output the system or user acts on without full review. | Highest risk. Must specify: (1) deterministic pre-validator, (2) schema enforcement, (3) post-execution audit mechanism. |
+
+**Key questions to ask:**
+1. "Which features in this app will use AI?" — List them.
+2. For each: "Can this logic be fully specified as rules?" If yes → DETERMINISTIC. Don't use AI for things you can code.
+3. For each: "Who acts on this output?" If a human reviews → AI-ADVISORY. If the system acts automatically → AI-OPERATIONAL.
+4. For each AI-OPERATIONAL component: "What happens if the output is wrong?" Define the gating requirements.
+
+**Anti-patterns to flag during this discussion:**
+- AI doing math, totals, date calculations, unit conversions → always code these
+- AI enforcing business rules or compliance checks → code the rules; use AI to audit
+- AI controlling workflow sequence → use state machines; let AI advise within a step
+- Externally-sourced constants (formulas, rates, regulatory values) without a verification reference → require `verified_against` provenance
+
+**Record the decision as:**
+```markdown
+### TD-XXX — AI Boundary Classification
+
+- **Decision**: AI boundary classification for [project name]
+- **Date**: [date]
+- **Rationale**: [Why these boundaries were drawn here]
+
+**AI-OPERATIONAL components** (require gating):
+| Component | Pre-validator | Schema enforcement | Post-audit |
+|-----------|--------------|-------------------|------------|
+| [name]    | [what checks] | [Pydantic/JSON schema] | [audit mechanism] |
+
+**AI-ADVISORY components** (human reviews):
+| Component | Reviewer | Acceptable because |
+|-----------|---------|-------------------|
+| [name]    | [role]  | [why advisory is sufficient] |
+
+**DETERMINISTIC components using externally-sourced constants:**
+| Component | Constants source | Verified against |
+|-----------|-----------------|-----------------|
+| [name]    | [publication/package] | [reference + date] |
+
+**Default**: Everything not listed above is DETERMINISTIC with no AI involvement.
+```
+
+**After this decision**, inform user: "Run `/ai-governance audit` after build to verify the code matches these boundary decisions."
+
+**10. Testing Framework**
 After selection, validate:
 - Tests run on all team members' OS (from decision #4)
 - CI/CD can test on production-target OS (from decision #5)
 - If dev OS ≠ prod OS without containers, CI must test on prod-target OS
 
-**10. UI/UX Foundations**
+**11. UI/UX Foundations**
 Keep this lightweight - just enough to guide consistent output:
 - Accessibility baseline (default: WCAG AA / Section 508)
 - Reference site URL (optional) - "keep styling in this visual family"
@@ -144,7 +200,57 @@ After completing all technology decisions, generate `implementation_plan.md` in 
 
 ---
 
-## Phase 2.5: Create naming_conventions.md
+## Phase 2.5: Add Maintenance Policy
+
+After generating implementation_plan.md, append a **Maintenance** section to it.
+
+**Purpose**: Establish low-overhead dependency and infrastructure maintenance from day one, so the project doesn't accumulate unmanaged tech debt.
+
+**Append the following section to implementation_plan.md**:
+
+```markdown
+## Maintenance
+
+### Dependency Updates
+
+**Dependabot configuration** — create `.github/dependabot.yml` during Phase 1 (scaffolding):
+- Schedule: `monthly` (not daily/weekly — reduces noise for small teams)
+- Group all dependencies into a single PR per ecosystem (pip, npm, github-actions)
+- Set `open-pull-requests-limit: 5`
+
+**Auto-merge workflow** — create `.github/workflows/dependabot-auto-merge.yml`:
+- Auto-merge patch and minor version bumps when CI passes (squash merge)
+- Major version bumps require manual review
+- Uses `dependabot/fetch-metadata` to detect update type
+
+**Pinning strategy**:
+- Use compatible-release pins where possible (`~=3.2` for pip, `^3.2.0` for npm)
+- Exact pins only for tools where behavior changes break the build (linters, formatters)
+
+### Quarterly Maintenance Cycle
+
+Pick one day per quarter to:
+1. Merge any outstanding grouped Dependabot PR
+2. Check for runtime EOL dates (Python, Node) — upgrade if within 6 months of EOL
+3. Review infrastructure announcements (hosting platform, database provider)
+4. Run full test suite and deploy
+
+**Exception**: Critical/high security advisories — act within 1 week.
+
+### What Doesn't Need Regular Updates
+
+- Infrastructure platforms (Vercel, Neon, etc.) — no action unless breaking change announced
+- Runtime versions — annually, or when EOL approaches
+- Dev tooling (linters, formatters) — only when they block something
+```
+
+**After appending**, inform user: "Added maintenance policy to implementation_plan.md. Dependabot and auto-merge files should be created during Phase 1 scaffolding."
+
+Then proceed to Phase 2.75.
+
+---
+
+## Phase 2.75: Create naming_conventions.md
 
 After generating implementation_plan.md, create `naming_conventions.md` in the project root.
 
