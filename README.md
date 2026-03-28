@@ -75,6 +75,24 @@ DISCIPLINE SKILLS (available any time)
 
 The v1.3.0 discipline upgrades (TDD enforcement, adversarial review, systematic debugging, verification gates, and anti-rationalization tables) were inspired by the [Superpowers](https://github.com/obra/superpowers) project by Jesse Vincent. Superpowers takes a different approach — a full agentic skills framework with session-start enforcement hooks, subagent-driven development, and persuasion-research-backed compliance techniques. We studied its architecture and cherry-picked the techniques that best fit a solo non-developer workflow. If you want a more opinionated, all-in-one framework, check it out.
 
+## Built With These Skills
+
+Everything below was built by a non-developer using this skill set and Claude Code.
+
+### Renewal Initiatives (501(c)(3) nonprofit)
+- **[Financial System](https://github.com/renewal-initiatives-inc/financial-system)** — Full double-entry fund accounting system replacing QuickBooks. Plaid bank feeds, Ramp integration, vendor management, 1099s, grant tracking, IRS 990 compliance.
+- **[Proposal Rodeo](https://github.com/renewal-initiatives-inc/proposal-rodeo)** — AI-powered grant proposal writing platform. RFP intake, compliance matrix, 5-stage draft pipeline, Red Team review, DOCX export.
+- **[Renewal Timesheets](https://github.com/renewal-initiatives-inc/renewal-timesheets)** — Compliance-first youth worker timesheet system enforcing child labor laws across multiple age bands.
+- **[Expense Reports](https://github.com/renewal-initiatives-inc/expense-reports-homegrown)** — Expense management with Zitadel SSO and QuickBooks integration.
+- **[App Portal](https://github.com/renewal-initiatives-inc/app-portal)** — Internal application portal with unified Zitadel authentication across all org apps.
+
+### Municipal SaaS
+- **Plow HQ Website** *(private)* — Public website for a municipal plow management tool enabling New England towns to communicate with, monitor, and plan winter operations with independent plow contractors.
+- **Time Well Spent** *(private)* — Timesheet application for Massachusetts agricultural youth employment programs, incorporating complex youth employment conditions, reporting requirements, and work-time limitations.
+
+### Developer Tooling
+- **[Zitadel MCP](https://github.com/takleb3rry/zitadel-mcp)** — MCP server for Zitadel identity management — manage users, projects, apps, roles, and service accounts from AI tools.
+
 ## Installation
 
 See [INSTALLATION.md](INSTALLATION.md) for setup instructions.
